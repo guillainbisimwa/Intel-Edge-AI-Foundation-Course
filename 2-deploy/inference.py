@@ -7,7 +7,11 @@ the related lesson on the topic.
 import os
 import sys
 import logging as log
-from openvino.inference_engine import IENetwork, IECore
+#from openvino.inference_engine import IENetwork, IECore
+try:
+    from armv7l.openvino.inference_engine import IENetwork, IEPlugin
+except:
+    from openvino.inference_engine import IENetwork, IEPlugin
 
 class Network:
     '''

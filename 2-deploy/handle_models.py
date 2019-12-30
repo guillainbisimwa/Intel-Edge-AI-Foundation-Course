@@ -32,9 +32,15 @@ def handle_car(output, input_shape):
     The first is for color, and the second for type.
     '''
     # TODO 1: Get the argmax of the "color" output
+    color = output['color'].flatten()
+    car_type = output['type'].flatten()
+     
+    color_class = np.argmax(color)
+    
     # TODO 2: Get the argmax of the "type" output
-
-    return None
+    type_class = np.argmax(car_type)
+    
+    return color_class, type_class
 
 
 def handle_output(model_type):
