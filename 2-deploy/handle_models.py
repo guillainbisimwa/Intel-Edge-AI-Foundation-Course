@@ -8,9 +8,21 @@ def handle_pose(output, input_shape):
     Returns ONLY the keypoint heatmaps, and not the Part Affinity Fields.
     '''
     # TODO 1: Extract only the second blob output (keypoint heatmaps)
+    print(output.keys())
+    heatmaps = output["Mconv7_stage2_L1"]
+    print(len(heatmaps[0]))
+    print(heatmaps.shape)
+    print(heatmaps.shape[1])
+    print(input_shape[0])
+    print(input_shape[1])
     # TODO 2: Resize the heatmap back to the size of the input
+    out_heatmap = np.zeros([heatmaps.shape[1], input_shape[0], input_shape[1]])
+    
+    for h in range(len(heatmaps[0])):
+        out_heatmap[h] = cv2.resize(heatmaps[0][h], input_shape[0:2][::-1])
+    
 
-    return None
+    return out_heatmap
 
 
 def handle_text(output, input_shape):
@@ -20,9 +32,15 @@ def handle_text(output, input_shape):
         and not the linkage between pixels and their neighbors.
     '''
     # TODO 1: Extract only the first blob output (text/no text classification)
+    print(output.keys())
+    text_class = output["model/link_logits_/add"]
     # TODO 2: Resize this output back to the size of the input
-
-    return None
+    out_text = np.empty([text_class.shape[1], input_shape[0], input_shape[1]])
+    
+    for t in range(len(text_class[0])):
+        out_text[t] = cv2.resize(text_class[0][t], input_shape[0:2][::-1])
+        
+    return out_text
 
 
 def handle_car(output, input_shape):
