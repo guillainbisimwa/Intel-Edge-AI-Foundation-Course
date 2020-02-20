@@ -131,11 +131,14 @@ def perform_inference(args):
     except:
         output_image = image
         print("Error")
-
-
     
     # Save down the resulting image
     cv2.imwrite("outputs/{}-output.png".format(args.t), output_image)
+    cv2.imshow('image',output_image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+    cv2.imwrite('out.png',output_image)
 
 
 def main():
