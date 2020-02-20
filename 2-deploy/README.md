@@ -58,9 +58,13 @@ you get started (there are additional comments in the code to assist):
 
 python3 app.py -i "images/blue-car.jpg" -t "CAR_META" -m "/opt/intel/openvino_2019.3.376/deployment_tools/open_model_zoo/tools/downloader/intel/vehicle-attributes-recognition-barrier-0039/INT8/vehicle-attributes-recognition-barrier-0039.xml" -c "/opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so"
 
-python app.py -i "images/blue-car.jpg" -t "CAR_META" -m "/home/workspace/models/vehicle-attributes-recognition-barrier-0039.xml"
+python3 app.py -i "images/blue-car.jpg" -t "CAR_META" -m "/app/intel/vehicle-attributes-recognition-barrier-0039.xml"
  -c "/opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so"
 
-python app.py -i "images/sitting-on-car.jpg" -t "POSE" -m "/home/workspace/models/human-pose-estimation-0001.xml" -c "/opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so"
+python3 app.py -i "images/sitting-on-car.jpg" -t "POSE" -m "/app/intel/human-pose-estimation-0001/INT8/human-pose-estimation-0001.xml" -c "/opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so"
 
-python app.py -i "images/sign.jpg" -t "TEXT" -m "/home/workspace/models/text-detection-0004.xml" -c "/opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so"
+python3 app.py -i "images/sign.jpg" -t "TEXT" -m "/app/intel/text-detection-0004/FP16/text-detection-0004.xml" -c "/opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so"
+
+python3 app.py -i "images/blue-car.jpg" -t "CAR_META" -m "/app/intel/vehicle-attributes-recognition-barrier-0039/INT8/vehicle-attributes-recognition-barrier-0039.xml" -c "/opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so"
+
+docker run --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" -ti 2a2f65bdd42c /bin/bash

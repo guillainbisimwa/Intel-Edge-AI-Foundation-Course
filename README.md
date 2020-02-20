@@ -53,3 +53,45 @@ To run a container based on this image:
 ``` bash
 docker run -ti d9c72c1ee970 /bin/bash
 ```
+
+# Choosing Models
+I chose the following models for the three tasks:
+
+Human Pose Estimation: human-pose-estimation-0001
+Text Detection: text-detection-0004
+Determining Car Type & Color: vehicle-attributes-recognition-barrier-0039
+Downloading Models
+To navigate to the directory containing the Model Downloader:
+
+``` bash
+cd /opt/intel/openvino/deployment_tools/open_model_zoo/tools/downloader
+```
+
+Within there, you'll notice a downloader.py file, and can use the -h argument with it to see available arguments. For this exercise, --name for model name, and --precisions, used when only certain precisions are desired, are the important arguments. Note that running downloader.py without these will download all available pre-trained models, which will be multiple gigabytes. You can do this on your local machine, if desired, but the workspace will not allow you to store that much information.
+
+Note: In the classroom workspace, you will not be able to write to the /opt/intel directory, so you should also use the -o argument to specify your output directory as /home/workspace (which will download into a created intel folder therein).
+
+Downloading Human Pose Model
+
+``` bash
+sudo ./downloader.py --name human-pose-estimation-0001 -o /home/workspace
+```
+
+``` bash
+sudo ./downloader.py --name text-detection-0004 --precisions FP16 -o /home/workspace
+```
+
+``` bash
+sudo ./downloader.py --name vehicle-attributes-recognition-barrier-0039 --precisions INT8 -o /home/workspace
+```
+
+
+# Commit a container with new configurations
+
+
+``` bash
+sudo docker commit --change "ENV DEBUG true" CONTAINER_ID  my_name/my_image:version3
+
+```
+sudo docker commit --change "ENV DEBUG true" fb63594bf93b  guillainbisimwa/openvino:version4
+
