@@ -29,6 +29,26 @@ def get_args():
     return args
 
 
+def assess_scene(result, counter, incident_flag):
+    '''
+    Based on the determined situation, potentially send
+    a message to the pets to break it up.
+    '''
+    if result[0][1] == 1 and not incident_flag:
+        timestamp = counter / 30
+        print("Log: Incident begin at {:.2f} seconds.".format(timestamp))
+        print("Break it up!")
+        incident_flag = True
+    elif result[0][1] == 0 and incident_flag:
+        timestamp = counter / 30
+        print("Log: Incident end at {:.2f} seconds.".format(timestamp))
+        incident_flag = False
+    elif result[0][1] != 1:
+        incident_flag = False
+    
+    return incident_flag
+
+
 def infer_on_video(args):
     # Initialize the Inference Engine
     plugin = Network()
@@ -42,12 +62,15 @@ def infer_on_video(args):
     cap.open(args.i)
 
     # Process frames until the video ends, or process is exited
+    counter = 0
+    incident_flag = False
     while cap.isOpened():
         # Read the next frame
         flag, frame = cap.read()
         if not flag:
             break
         key_pressed = cv2.waitKey(60)
+        counter += 1
 
         # Pre-process the frame
         p_frame = cv2.resize(frame, (net_input_shape[3], net_input_shape[2]))
@@ -61,8 +84,9 @@ def infer_on_video(args):
         if plugin.wait() == 0:
             result = plugin.extract_output()
             ### TODO: Process the output
-            
+            incident_flag = assess_scene(result, counter, incident_flag)
 
+        # cv2.imshow('my video', frame)
         # Break if escape key pressed
         if key_pressed == 27:
             break
