@@ -85,13 +85,26 @@ sudo ./downloader.py --name text-detection-0004 --precisions FP16 -o /home/works
 sudo ./downloader.py --name vehicle-attributes-recognition-barrier-0039 --precisions INT8 -o /home/workspace
 ```
 
+# Copying files from host to Docker container
+## From a container to the host
+``` bash
+docker cp CONTAINER_ID:./bar/foo.txt .
+```
+## From the host to a container
+``` bash
+docker exec -i CONTAINER_ID sh -c 'cat > ./bar/foo.txt' < ./foo.txt
+```
 
 # Commit a container with new configurations
 
-
 ``` bash
 sudo docker commit --change "ENV DEBUG true" CONTAINER_ID  my_name/my_image:version3
-
 ```
+``` bash
 sudo docker commit --change "ENV DEBUG true" fb63594bf93b  guillainbisimwa/openvino:version4
+```
 
+# To access the camera inside docker ( ls -ltrh /dev/video* )
+docker run --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" -v /dev/video1:/dev/video1 -ti b213c7e52101 /bin/bash
+
+docker run --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" --device=/dev/video0:/dev/video0 -ti 8d6a18436ec5 /bin/bash

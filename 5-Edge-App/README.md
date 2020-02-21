@@ -2,7 +2,7 @@
 
 It's time to really get in the think of things for running your app at the edge. Being able to
 appropriately handle an input stream is a big part of having a working AI or computer vision
-application. 
+application.
 
 In your case, you will be implementing a function that can handle camera, video or webcam
 data as input. While unfortunately the classroom workspace won't allow for webcam usage,
