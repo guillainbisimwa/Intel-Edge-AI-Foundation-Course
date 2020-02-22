@@ -22,3 +22,4 @@ For testing or debugging the MQTT broker, if necessary, you can use:
  * [mosquitto-clients](https://mosquitto.org/download/)
  * [mqtt-spy](http://kamilfb.github.io/mqtt-spy/)
 
+python app.py | ffmpeg -v warning -f rawvideo -pixel_format bgr24 -video_size 1280x720 -framerate 24 -i - http://0.0.0.0:3004/fac.ffm

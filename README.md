@@ -105,6 +105,10 @@ sudo docker commit --change "ENV DEBUG true" fb63594bf93b  guillainbisimwa/openv
 ```
 
 # To access the camera inside docker ( ls -ltrh /dev/video* )
+``` bash
 docker run --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" -v /dev/video1:/dev/video1 -ti b213c7e52101 /bin/bash
+```
 
-docker run --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" --device=/dev/video0:/dev/video0 -ti 8d6a18436ec5 /bin/bash
+``` bash
+docker run --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" --device=/dev/video0:/dev/video0 -ti 05d6111af32e /bin/bash
+```

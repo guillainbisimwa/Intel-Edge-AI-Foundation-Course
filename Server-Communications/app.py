@@ -6,6 +6,8 @@ import json
 from random import randint
 from inference import Network
 ### TODO: Import any libraries for MQTT and FFmpeg
+import paho.mqtt.client as mqtt
+import sys
 
 INPUT_STREAM = "test_video.mp4"
 CPU_EXTENSION = "/opt/intel/openvino/deployment_tools/inference_engine/lib/intel64/libcpu_extension_sse4.so"
@@ -66,6 +68,8 @@ def get_class_names(class_nums):
 
 def infer_on_video(args, model):
     ### TODO: Connect to the MQTT server
+    client = mqtt.Client()
+    client.connect(MQTT_HOST, MQTT_PORT, MQTT_KEEPALIVE_INTERVAL)
 
     # Initialize the Inference Engine
     plugin = Network()
@@ -110,10 +114,11 @@ def infer_on_video(args, model):
             ### Hint: The UI web server will check for a "class" and
             ### "speedometer" topic. Additionally, it expects "class_names"
             ### and "speed" as the json keys of the data, respectively.
-            
-
+            client.publish("class", json.dumps({"class_names": class_names}))
+            client.publish("speedometer", json.dumps({"speed": speed}))
         ### TODO: Send frame to the ffmpeg server
-        
+        sys.stdout.buffer.write(out_frame)
+        sys.stdout.flush()
 
         # Break if escape key pressed
         if key_pressed == 27:
@@ -123,6 +128,7 @@ def infer_on_video(args, model):
     cap.release()
     cv2.destroyAllWindows()
     ### TODO: Disconnect from MQTT
+    client.disconnect()
 
 
 def main():

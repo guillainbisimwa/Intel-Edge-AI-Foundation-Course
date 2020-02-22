@@ -5,3 +5,5 @@ __pycache__/
 intel/
 Personal/
 mqtt-server/
+Server-Communications/webservice/ui/node_modules/
+Server-Communications/webservice/server/node_modules/
