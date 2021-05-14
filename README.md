@@ -1,7 +1,6 @@
 ---
 noteId: "fe871370b4a911eba09fc3f786392703"
 tags: []
-
 ---
 
 # Intel-Edge-AI-Foundation-Course
@@ -11,7 +10,7 @@ You can use this Docker image as a base image and use it in multiple Dockerfiles
 
 Move to sample-app directory and build the image
 
-``` bash
+```bash
 docker build -t intel-edge .
 ```
 
@@ -19,23 +18,28 @@ Run the the container with X enabled (Linux)
 Additionally, for running a intel-edge application that displays an image, you need to share the host display to be accessed from guest Docker container.
 
 The X server on the host should be enabled for remote connections:
-``` bash
+
+```bash
 xhost +
 ```
 
 The following flags needs to be added to the docker run command:
-``` bash
+
+```bash
 --net=host
 --env="DISPLAY"
 --volume="$HOME/.Xauthority:/root/.Xauthority:rw"
 ```
+
 To run the intel-edge image with the display enabled:
 
-``` bash
+```bash
 docker run --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" -ti d9c72c1ee970 /bin/bash
 ```
+
 Finally disable the remote connections to the X server
-``` bash
+
+```bash
 xhost -
 ```
 
@@ -45,7 +49,7 @@ You can use this Docker image as a base image and use it in multiple Dockerfiles
 
 Move to root directory and build the image
 
-``` bash
+```bash
 cd root directory
 docker build -t my-intel-edge .
 ```
@@ -56,11 +60,12 @@ You can directly run a container based on this image or use this image across ot
 
 To run a container based on this image:
 
-``` bash
+```bash
 docker run -ti d9c72c1ee970 /bin/bash
 ```
 
 # Choosing Models
+
 I chose the following models for the three tasks:
 
 Human Pose Estimation: human-pose-estimation-0001
@@ -69,7 +74,7 @@ Determining Car Type & Color: vehicle-attributes-recognition-barrier-0039
 Downloading Models
 To navigate to the directory containing the Model Downloader:
 
-``` bash
+```bash
 cd /opt/intel/openvino/deployment_tools/open_model_zoo/tools/downloader
 ```
 
@@ -79,42 +84,48 @@ Note: In the classroom workspace, you will not be able to write to the /opt/inte
 
 Downloading Human Pose Model
 
-``` bash
+```bash
 sudo ./downloader.py --name human-pose-estimation-0001 -o /home/workspace
 ```
 
-``` bash
+```bash
 sudo ./downloader.py --name text-detection-0004 --precisions FP16 -o /home/workspace
 ```
 
-``` bash
+```bash
 sudo ./downloader.py --name vehicle-attributes-recognition-barrier-0039 --precisions INT8 -o /home/workspace
 ```
 
 # Copying files from host to Docker container
+
 ## From a container to the host
-``` bash
+
+```bash
 docker cp CONTAINER_ID:./bar/foo.txt .
 ```
+
 ## From the host to a container
-``` bash
+
+```bash
 docker exec -i CONTAINER_ID sh -c 'cat > ./bar/foo.txt' < ./foo.txt
 ```
 
 # Commit a container with new configurations
 
-``` bash
+```bash
 sudo docker commit --change "ENV DEBUG true" CONTAINER_ID  my_name/my_image:version3
 ```
-``` bash
+
+```bash
 sudo docker commit --change "ENV DEBUG true" fb63594bf93b  guillainbisimwa/openvino:version4
 ```
 
-# To access the camera inside docker ( ls -ltrh /dev/video* )
-``` bash
+# To access the camera inside docker ( ls -ltrh /dev/video\* )
+
+```bash
 docker run --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" -v /dev/video1:/dev/video1 -ti b213c7e52101 /bin/bash
 ```
 
-``` bash
+```bash
 docker run --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" --device=/dev/video0:/dev/video0 -ti 05d6111af32e /bin/bash
 ```
