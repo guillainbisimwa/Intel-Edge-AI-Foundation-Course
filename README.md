@@ -1,3 +1,9 @@
+---
+noteId: "fe871370b4a911eba09fc3f786392703"
+tags: []
+
+---
+
 # Intel-Edge-AI-Foundation-Course
 
 Use the image in another container
